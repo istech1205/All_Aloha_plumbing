@@ -1,4 +1,5 @@
-import 'package:all_aloha_plumbing/utils/Const.dart';
+import 'dart:ffi';
+
 import 'package:all_aloha_plumbing/utils/colors.dart';
 import 'package:all_aloha_plumbing/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,82 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  static double mJobHoursResult;
+  double mTotalJobPriceResult;
+  double mPartsCostResult;
+  double mApprenticeResult;
+  double mSubcontractorResult;
+  double mSalesManagerResult;
+  double mJobPriceSoldBySalesManagerResult;
+
+  Widget outputText(double result, Size size) {
+    return Container(
+      padding: EdgeInsets.only(right: 10, left: 10),
+      height: 35,
+      width: size.width / 3,
+      decoration: loginsignupEtStyle,
+      child: Text(
+        result.toString(),
+        style: lablesStyle,
+      ),
+    );
+  }
+
+  Widget textInputField(String hint, TextInputType inputType,
+      TextInputAction inputAction, Size size) {
+    return Container(
+      padding: EdgeInsets.only(right: 10, left: 10),
+      height: 35,
+      width: size.width / 4,
+      decoration: loginsignupEtStyle,
+      child: Center(
+        child: TextField(
+          style: loginsignEtHintStyle,
+          textAlign: TextAlign.left,
+          textInputAction: inputAction,
+          maxLines: 1,
+          keyboardType: inputType,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+              hintText: hint,
+              border: InputBorder.none,
+              hintStyle: loginsignEtHintStyle,
+              fillColor: bggray),
+          onChanged: (text) {
+            switch (hint) {
+              case 'Enter Job Hours':
+                print('on Job Hours changes:$text');
+                if (text.length > 0) {
+                  setState(() {
+                    mJobHoursResult = 20;
+                  });
+                }
+                break;
+
+              case 'Enter parts costs':
+                print('on Enter parts costs changes:$text');
+                break;
+
+              case 'Enter Apprentice':
+                print('on Enter Apprentice changes:$text');
+                break;
+
+              case 'Enter Subcontractor':
+                print('on Enter Subcontractor changes:$text');
+                break;
+
+              case 'Enter Sales Manager cost':
+                print('on  Enter Sales Manager cost changes:$text');
+                break;
+
+              default:
+            }
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +118,12 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      TextInputField(
-                        hint: 'Enter Job Hours',
-                        inputType: TextInputType.number,
-                        inputAction: TextInputAction.next,
-                      ),
+                      textInputField('Enter Job Hours', TextInputType.number,
+                          TextInputAction.next, MediaQuery.of(context).size),
                       SizedBox(
                         width: 10,
                       ),
-                      OutputText()
+                      outputText(mJobHoursResult, MediaQuery.of(context).size)
                     ],
                   ),
                 ),
@@ -63,15 +137,12 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      TextInputField(
-                        hint: 'Enter parts costs',
-                        inputType: TextInputType.number,
-                        inputAction: TextInputAction.next,
-                      ),
+                      textInputField('Enter parts costs', TextInputType.number,
+                          TextInputAction.next, MediaQuery.of(context).size),
                       SizedBox(
                         width: 10,
                       ),
-                      OutputText()
+                      outputText(mPartsCostResult, MediaQuery.of(context).size)
                     ],
                   ),
                 ),
@@ -86,15 +157,12 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      TextInputField(
-                        hint: 'Enter Apprentice',
-                        inputType: TextInputType.number,
-                        inputAction: TextInputAction.next,
-                      ),
+                      textInputField('Enter Apprentice', TextInputType.number,
+                          TextInputAction.next, MediaQuery.of(context).size),
                       SizedBox(
                         width: 10,
                       ),
-                      OutputText()
+                      outputText(mApprenticeResult, MediaQuery.of(context).size)
                     ],
                   ),
                 ),
@@ -109,15 +177,16 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      TextInputField(
-                        hint: 'Enter Subcontractor',
-                        inputType: TextInputType.number,
-                        inputAction: TextInputAction.next,
-                      ),
+                      textInputField(
+                          'Enter Subcontractor',
+                          TextInputType.number,
+                          TextInputAction.next,
+                          MediaQuery.of(context).size),
                       SizedBox(
                         width: 10,
                       ),
-                      OutputText()
+                      outputText(
+                          mSubcontractorResult, MediaQuery.of(context).size)
                     ],
                   ),
                 ),
@@ -134,7 +203,8 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      OutputText()
+                      outputText(
+                          mTotalJobPriceResult, MediaQuery.of(context).size)
                     ],
                   ),
                 ),
@@ -149,11 +219,11 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      TextInputField(
-                        hint: 'Enter Subcontractor',
-                        inputType: TextInputType.number,
-                        inputAction: TextInputAction.done,
-                      ),
+                      textInputField(
+                          'Enter Sales Manager cost',
+                          TextInputType.number,
+                          TextInputAction.done,
+                          MediaQuery.of(context).size),
                     ],
                   ),
                 ),
@@ -173,7 +243,8 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      OutputText()
+                      outputText(mJobPriceSoldBySalesManagerResult,
+                          MediaQuery.of(context).size)
                     ],
                   ),
                 ),
@@ -200,61 +271,6 @@ class LableText extends StatelessWidget {
       child: Text(
         lable,
         style: lablesStyle,
-      ),
-    );
-  }
-}
-
-class OutputText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.only(right: 10, left: 10),
-      height: 35,
-      width: size.width / 3,
-      decoration: loginsignupEtStyle,
-      child: Text(
-        "",
-        style: lablesStyle,
-      ),
-    );
-  }
-}
-
-class TextInputField extends StatelessWidget {
-  const TextInputField({
-    Key key,
-    @required this.hint,
-    this.inputType,
-    this.inputAction,
-  }) : super(key: key);
-
-  final String hint;
-  final TextInputType inputType;
-  final TextInputAction inputAction;
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.only(right: 10, left: 10),
-      height: 35,
-      width: size.width / 4,
-      decoration: loginsignupEtStyle,
-      child: Center(
-        child: TextField(
-          style: loginsignEtHintStyle,
-          textAlign: TextAlign.left,
-          textInputAction: inputAction,
-          keyboardType: inputType,
-          textAlignVertical: TextAlignVertical.center,
-          decoration: InputDecoration(
-              hintText: hint,
-              border: InputBorder.none,
-              hintStyle: loginsignEtHintStyle,
-              fillColor: bggray),
-        ),
       ),
     );
   }

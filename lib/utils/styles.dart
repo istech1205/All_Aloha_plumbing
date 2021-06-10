@@ -12,4 +12,4 @@ BoxDecoration loginsignupEtStyle = BoxDecoration(
   border: Border.all(width: 1.0, color: darkgray),
   borderRadius: BorderRadius.circular(7),
 );
-TextStyle loginsignEtHintStyle = TextStyle(color: black, fontSize: 13);
+TextStyle loginsignEtHintStyle = TextStyle(color: black, fontSize: 12);
